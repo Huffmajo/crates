@@ -50,7 +50,6 @@ public class Crate : MonoBehaviour
         		selectedObj = hit.collider.gameObject;
         		Debug.Log("SelectedObj: " + selectedObj);
         	}
-
         }
 
         // click/touch held
@@ -63,8 +62,11 @@ public class Crate : MonoBehaviour
         		swipeEndPos = hit.point;
         	}
 
-        	// WORKS BUT IS DEPENDENT ON CAMERA ANGLE AND POSITION
-        	//swipeEndPos = Camera.main.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10f));
+        	// draw swipe line
+	        swipeLine.SetPosition(0, swipeStartPos);
+   		    swipeLine.SetPosition(1, swipeEndPos);
+   	    	Vector3 posDiff = swipeEndPos - swipeStartPos;
+   	    	swipeAngle = Mathf.Atan2(posDiff.z, posDiff.x) * Mathf.Rad2Deg + 180;
         }
 
         // click/touch release
@@ -88,8 +90,7 @@ public class Crate : MonoBehaviour
 
         	if (DirectionClear(dir))
         	{
-        		Move(dir, thrustForce);
-        		Debug.Log("Pushed " + dir);
+        		MoveUntilCollision(dir);
         	}
         	else
         	{
@@ -197,7 +198,53 @@ public class Crate : MonoBehaviour
     	}
 
     	transform.position += dirVector * thrustForce;
-    	//rb.AddForce(dirVector * thrust, ForceMode.Impulse);
+    }
+
+    // move crate
+    void MoveUntilCollision(Direction dir)
+    {
+    	Vector3 dirVector;
+
+    	switch(dir)
+    	{
+    		case Direction.UP:
+    			dirVector = Vector3.forward;
+    			break;
+
+    		case Direction.DOWN:
+    			dirVector = Vector3.back;
+    			break;
+
+    		case Direction.LEFT:
+    			dirVector = Vector3.left;
+    			break;
+
+    		case Direction.RIGHT:
+    			dirVector = Vector3.right;
+    			break;
+
+    		default:
+    			dirVector = Vector3.right;
+    			break;
+    	}
+
+    	float distance = DistanceToObject(dirVector);
+
+    	// account for distance from crate's edge to center
+    	float halfSize = transform.localScale.x / 2;
+    	transform.position += dirVector * (distance - halfSize);
+    }
+
+    float DistanceToObject(Vector3 dirVector)
+    {
+    	if (Physics.Raycast(transform.position, dirVector, out hit, Mathf.Infinity))
+    	{
+    		return hit.distance;
+    	}
+    	else
+    	{
+    		return 0f;
+    	}
     }
 
 }
