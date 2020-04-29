@@ -7,11 +7,13 @@ public class Crate : MonoBehaviour
 	public Vector3 swipeStartPos;
 	public Vector3 swipeEndPos;
 	public float swipeAngle;
+	
 
 	private LineRenderer swipeLine;
 	private Ray ray;
     private	RaycastHit hit;
-    private Rigidbody rb;
+    private float thrustForce;
+    //private Rigidbody rb;
 
     private enum Direction {UP, DOWN, LEFT, RIGHT};
     private Direction dir;
@@ -20,13 +22,15 @@ public class Crate : MonoBehaviour
 
     void Start()
     {
-    	rb = GetComponent<Rigidbody>();
+    	//rb = GetComponent<Rigidbody>();
 
-       // instantiate swipe line
-       swipeLine = gameObject.AddComponent<LineRenderer>();
-       swipeLine.positionCount = 2;
-       swipeLine.startWidth = 1f;
-       swipeLine.endWidth = 0f;
+    	// instantiate swipe line
+    	swipeLine = gameObject.AddComponent<LineRenderer>();
+    	swipeLine.positionCount = 2;
+    	swipeLine.startWidth = 1f;
+    	swipeLine.endWidth = 0f;
+
+    	thrustForce = 1f;
     }
 
     // Update is called once per frame
@@ -73,23 +77,58 @@ public class Crate : MonoBehaviour
         		swipeEndPos = hit.point;
         	}
 
-        	//swipeEndPos = Camera.main.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10f));
+        	// draw swipe line
+	        swipeLine.SetPosition(0, swipeStartPos);
+   		    swipeLine.SetPosition(1, swipeEndPos);
+   	    	Vector3 posDiff = swipeEndPos - swipeStartPos;
+   	    	swipeAngle = Mathf.Atan2(posDiff.z, posDiff.x) * Mathf.Rad2Deg + 180;
+
+        	// determine direction of swipe
+        	dir = SwipeInput(swipeAngle);
+
+        	if (DirectionClear(dir))
+        	{
+        		Move(dir, thrustForce);
+        		Debug.Log("Pushed " + dir);
+        	}
+        	else
+        	{
+        		Debug.Log("Direction blocked");
+        	}
         }
 
-        // draw swipe line
-        swipeLine.SetPosition(0, swipeStartPos);
-   	    swipeLine.SetPosition(1, swipeEndPos);
-   	    Vector3 posDiff = swipeEndPos - swipeStartPos;
-   	    swipeAngle = Mathf.Atan2(posDiff.x, posDiff.z) * Mathf.Rad2Deg + 180;
+        
     }
 
     // determines input from swipe
-    /*
-    Direction SwipeInput()
+    Direction SwipeInput(float swipeAngle)
     {
+    	Direction outputDir;
 
+    	if (swipeAngle > 315 || swipeAngle <= 45)
+    	{
+    		outputDir = Direction.LEFT;
+    	}
+    	else if (swipeAngle > 225 && swipeAngle <= 315)
+    	{
+    		outputDir = Direction.UP;
+    	}
+    	else if (swipeAngle > 135 && swipeAngle <= 225)
+    	{
+    		outputDir = Direction.RIGHT;
+    	}
+    	else if (swipeAngle > 45 && swipeAngle <= 315)
+    	{
+    		outputDir = Direction.DOWN;
+    	}
+    	else
+    	{
+    		Debug.Log("Direction not recognized from angle: " + swipeAngle + ". Default UP direction used");
+    		outputDir = Direction.UP;
+    	}
+
+    	return outputDir;
     }
-	*/
 
     // check position is clear for movement
     bool DirectionClear(Direction dir)
@@ -157,7 +196,8 @@ public class Crate : MonoBehaviour
     			break;
     	}
 
-    	rb.AddForce(dirVector * thrust);
+    	transform.position += dirVector * thrustForce;
+    	//rb.AddForce(dirVector * thrust, ForceMode.Impulse);
     }
 
 }
