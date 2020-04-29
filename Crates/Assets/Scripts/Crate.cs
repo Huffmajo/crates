@@ -39,9 +39,6 @@ public class Crate : MonoBehaviour
     	// click/touch start
         if (Input.GetMouseButtonDown(0))
         {
-        	// WORKS BUT IS DEPENDENT ON CAMERA ANGLE AND POSITION
-        	//swipeStartPos = Camera.main.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 10f));
-
         	// get object clicked/touched
         	ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         	if (Physics.Raycast(ray, out hit))
@@ -67,6 +64,20 @@ public class Crate : MonoBehaviour
    		    swipeLine.SetPosition(1, swipeEndPos);
    	    	Vector3 posDiff = swipeEndPos - swipeStartPos;
    	    	swipeAngle = Mathf.Atan2(posDiff.z, posDiff.x) * Mathf.Rad2Deg + 180;
+
+   	    	// move selected object 
+        	if (selectedObj.tag == "Vertical")
+        	{
+        		float selectedObjHalfSize = selectedObj.transform.localScale.z / 2;
+        		CarVertical.selected = true;
+
+        		// sliding up
+        		if ((swipeEndPos.z > selectedObj.transform.position.z && CarVertical.distanceAbove > selectedObjHalfSize) ||
+        			(swipeEndPos.z < selectedObj.transform.position.z && CarVertical.distanceBelow > selectedObjHalfSize))
+        		{
+        			selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, swipeEndPos.z);
+        		}
+        	}
         }
 
         // click/touch release

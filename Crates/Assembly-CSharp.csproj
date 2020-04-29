@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CarVertical.cs" />
      <Compile Include="Assets\Scripts\Crate.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/jhuffmax/Crates/Crates/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
