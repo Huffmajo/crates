@@ -47,6 +47,11 @@ public class Crate : MonoBehaviour
         		selectedObj = hit.collider.gameObject;
         		Debug.Log("SelectedObj: " + selectedObj);
         	}
+
+            if (selectedObj.tag == "Vertical")
+            {
+                CarVertical.selected = true;
+            }
         }
 
         // click/touch held
@@ -60,23 +65,57 @@ public class Crate : MonoBehaviour
         	}
 
         	// draw swipe line
+            /*
 	        swipeLine.SetPosition(0, swipeStartPos);
    		    swipeLine.SetPosition(1, swipeEndPos);
    	    	Vector3 posDiff = swipeEndPos - swipeStartPos;
    	    	swipeAngle = Mathf.Atan2(posDiff.z, posDiff.x) * Mathf.Rad2Deg + 180;
+            */    
 
    	    	// move selected object 
         	if (selectedObj.tag == "Vertical")
         	{
         		float selectedObjHalfSize = selectedObj.transform.localScale.z / 2;
-        		CarVertical.selected = true;
+        		CarVertical.selected = false;
 
         		// sliding up
+                if (swipeEndPos.z > selectedObj.transform.position.z)
+                {
+                    // don't move past upper limit
+                    if (swipeEndPos.z > CarVertical.zUpperLimit)
+                    {
+                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, CarVertical.zUpperLimit);
+                    }
+                    // otherwise follow touch position
+                    else
+                    {
+                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, swipeEndPos.z);
+                    }
+                }
+
+                // sliding down
+                if (swipeEndPos.z < selectedObj.transform.position.z)
+                {
+                    // don't move past upper limit
+                    if (swipeEndPos.z < CarVertical.zLowerLimit)
+                    {
+                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, CarVertical.zLowerLimit);
+                    }
+                    // otherwise follow touch position
+                    else
+                    {
+                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, swipeEndPos.z);
+                    }
+                }
+
+                // OLD DRAG MOVEMENT, BAD COLLISION PREVENTION
+                /*
         		if ((swipeEndPos.z > selectedObj.transform.position.z && CarVertical.distanceAbove > selectedObjHalfSize) ||
         			(swipeEndPos.z < selectedObj.transform.position.z && CarVertical.distanceBelow > selectedObjHalfSize))
         		{
         			selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, swipeEndPos.z);
         		}
+                */
         	}
         }
 
@@ -91,14 +130,18 @@ public class Crate : MonoBehaviour
         	}
 
         	// draw swipe line
+            /*
 	        swipeLine.SetPosition(0, swipeStartPos);
    		    swipeLine.SetPosition(1, swipeEndPos);
    	    	Vector3 posDiff = swipeEndPos - swipeStartPos;
    	    	swipeAngle = Mathf.Atan2(posDiff.z, posDiff.x) * Mathf.Rad2Deg + 180;
+            */
 
         	// determine direction of swipe
         	dir = SwipeInput(swipeAngle);
 
+            // DON'T NEED CRATE TO MOVE FROM SWIPES
+            /*
         	if (DirectionClear(dir))
         	{
         		MoveUntilCollision(dir);
@@ -107,6 +150,7 @@ public class Crate : MonoBehaviour
         	{
         		Debug.Log("Direction blocked");
         	}
+            */
         }
 
         
