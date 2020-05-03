@@ -50,7 +50,7 @@ public class Crate : MonoBehaviour
 
             if (selectedObj.tag == "Vertical")
             {
-                CarVertical.selected = true;
+                VerticalCrate.selected = true;
             }
         }
 
@@ -76,15 +76,15 @@ public class Crate : MonoBehaviour
         	if (selectedObj.tag == "Vertical")
         	{
         		float selectedObjHalfSize = selectedObj.transform.localScale.z / 2;
-        		CarVertical.selected = false;
+        		VerticalCrate.selected = false;
 
         		// sliding up
                 if (swipeEndPos.z > selectedObj.transform.position.z)
                 {
                     // don't move past upper limit
-                    if (swipeEndPos.z > CarVertical.zUpperLimit)
+                    if (swipeEndPos.z > VerticalCrate.zUpperLimit)
                     {
-                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, CarVertical.zUpperLimit);
+                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, VerticalCrate.zUpperLimit);
                     }
                     // otherwise follow touch position
                     else
@@ -97,9 +97,9 @@ public class Crate : MonoBehaviour
                 if (swipeEndPos.z < selectedObj.transform.position.z)
                 {
                     // don't move past upper limit
-                    if (swipeEndPos.z < CarVertical.zLowerLimit)
+                    if (swipeEndPos.z < VerticalCrate.zLowerLimit)
                     {
-                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, CarVertical.zLowerLimit);
+                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, VerticalCrate.zLowerLimit);
                     }
                     // otherwise follow touch position
                     else
@@ -110,8 +110,8 @@ public class Crate : MonoBehaviour
 
                 // OLD DRAG MOVEMENT, BAD COLLISION PREVENTION
                 /*
-        		if ((swipeEndPos.z > selectedObj.transform.position.z && CarVertical.distanceAbove > selectedObjHalfSize) ||
-        			(swipeEndPos.z < selectedObj.transform.position.z && CarVertical.distanceBelow > selectedObjHalfSize))
+        		if ((swipeEndPos.z > selectedObj.transform.position.z && VerticalCrate.distanceAbove > selectedObjHalfSize) ||
+        			(swipeEndPos.z < selectedObj.transform.position.z && VerticalCrate.distanceBelow > selectedObjHalfSize))
         		{
         			selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, swipeEndPos.z);
         		}
@@ -302,4 +302,34 @@ public class Crate : MonoBehaviour
     	}
     }
 
+    // return list of all acceptable positions including max and min
+    List<float> GetAcceptablePositions(float max, float min)
+    {
+        List<float> positions = new List<float>();
+        float position = max;
+        while (position > min)
+        {
+            positions.Add(position);
+            position -= 1f;
+        }
+
+        return positions;
+    }
+
+    // returns the position that is closest to currentPosition
+    float ClosestAcceptablePosition(List<float> positions, float currentPosition)
+    {
+        float delta;
+        float closest = Mathf.Infinity;
+
+        foreach (float position in positions)
+        {
+            delta = Mathf.Abs(currentPosition) - Mathf.Abs(position);
+            if (delta < closest)
+            {
+                closest = delta;
+            }
+        }
+        return closest;
+    }
 }

@@ -55,8 +55,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\CarVertical.cs" />
      <Compile Include="Assets\Scripts\Crate.cs" />
+     <Compile Include="Assets\Scripts\HorizontalCrate.cs" />
+     <Compile Include="Assets\Scripts\SwipeManager.cs" />
+     <Compile Include="Assets\Scripts\TouchManager.cs" />
+     <Compile Include="Assets\Scripts\VerticalCrate.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Unity Projects/crates/crates/Crates/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
