@@ -55,7 +55,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Crate.cs" />
      <Compile Include="Assets\Scripts\HorizontalCrate.cs" />
      <Compile Include="Assets\Scripts\SwipeManager.cs" />
      <Compile Include="Assets\Scripts\TouchManager.cs" />

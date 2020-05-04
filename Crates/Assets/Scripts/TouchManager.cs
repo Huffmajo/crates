@@ -38,18 +38,20 @@ public class TouchManager : MonoBehaviour
         	if (Physics.Raycast(ray, out hit))
         	{
         		touchEndPos = hit.point;
-        	} 
+        	}
 
    	    	// move selected object 
         	if (selectedObj.tag == "Vertical")
         	{
+        		VerticalCrate script = selectedObj.GetComponent<VerticalCrate>();
+
         		// sliding up
                 if (touchEndPos.z > selectedObj.transform.position.z)
                 {
                     // don't move past upper limit
-                    if (touchEndPos.z > VerticalCrate.zUpperLimit)
+                    if (touchEndPos.z > script.zUpperLimit)
                     {
-                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, VerticalCrate.zUpperLimit);
+                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, script.zUpperLimit);
                     }
                     // otherwise follow touch position
                     else
@@ -62,9 +64,9 @@ public class TouchManager : MonoBehaviour
                 if (touchEndPos.z < selectedObj.transform.position.z)
                 {
                     // don't move past upper limit
-                    if (touchEndPos.z < VerticalCrate.zLowerLimit)
+                    if (touchEndPos.z < script.zLowerLimit)
                     {
-                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, VerticalCrate.zLowerLimit);
+                        selectedObj.transform.position = new Vector3(selectedObj.transform.position.x, selectedObj.transform.position.y, script.zLowerLimit);
                     }
                     // otherwise follow touch position
                     else
@@ -77,13 +79,15 @@ public class TouchManager : MonoBehaviour
         	// move selected object 
         	else if (selectedObj.tag == "Horizontal")
         	{
+        		HorizontalCrate script = selectedObj.GetComponent<HorizontalCrate>();
+
         		// sliding right
                 if (touchEndPos.x > selectedObj.transform.position.x)
                 {
                     // don't move past right limit
-                    if (touchEndPos.x > HorizontalCrate.xUpperLimit)
+                    if (touchEndPos.x > script.xUpperLimit)
                     {
-                        selectedObj.transform.position = new Vector3(HorizontalCrate.xUpperLimit, selectedObj.transform.position.y, selectedObj.transform.position.z);
+                        selectedObj.transform.position = new Vector3(script.xUpperLimit, selectedObj.transform.position.y, selectedObj.transform.position.z);
                     }
                     // otherwise follow touch position
                     else
@@ -96,9 +100,9 @@ public class TouchManager : MonoBehaviour
                 if (touchEndPos.x < selectedObj.transform.position.x)
                 {
                     // don't move past left limit
-                    if (touchEndPos.x < HorizontalCrate.xLowerLimit)
+                    if (touchEndPos.x < script.xLowerLimit)
                     {
-                        selectedObj.transform.position = new Vector3(HorizontalCrate.xLowerLimit, selectedObj.transform.position.y, selectedObj.transform.position.z);
+                        selectedObj.transform.position = new Vector3(script.xLowerLimit, selectedObj.transform.position.y, selectedObj.transform.position.z);
                     }
                     // otherwise follow touch position
                     else

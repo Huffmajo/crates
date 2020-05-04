@@ -5,11 +5,11 @@ using UnityEngine;
 public class VerticalCrate : MonoBehaviour
 {
 	public static bool selected;
-	public static float distanceAbove;
-	public static float distanceBelow;
-	public static float zUpperLimit;
-	public static float zLowerLimit;
+	public float zUpperLimit;
+	public float zLowerLimit;
 
+    private float distanceAbove;
+    private float distanceBelow;
 	private float halfSizeZ;
 
     // Start is called before the first frame update

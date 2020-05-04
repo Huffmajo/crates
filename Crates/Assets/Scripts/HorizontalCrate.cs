@@ -5,11 +5,11 @@ using UnityEngine;
 public class HorizontalCrate : MonoBehaviour
 {
     public static bool selected;
-	public static float distanceRight;
-	public static float distanceLeft;
-	public static float xUpperLimit;
-	public static float xLowerLimit;
+	public float xUpperLimit;
+	public float xLowerLimit;
 
+	private float distanceRight;
+	private float distanceLeft;
 	private float halfSizeX;
 
     // Start is called before the first frame update

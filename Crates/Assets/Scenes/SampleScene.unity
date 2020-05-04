@@ -682,12 +682,12 @@ GameObject:
   - component: {fileID: 1316152816}
   - component: {fileID: 1316152815}
   m_Layer: 0
-  m_Name: Vertical 1x4
+  m_Name: Vertical1x4
   m_TagString: Vertical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1316152815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,6 +700,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8275b173c08f714699fb67771693a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zUpperLimit: 0
+  zLowerLimit: 0
 --- !u!65 &1316152816
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -731,7 +733,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 929073d73f2e4ae44bdf7fa5c4fbcc8b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -823,7 +825,7 @@ GameObject:
   - component: {fileID: 1732395917}
   - component: {fileID: 1732395921}
   m_Layer: 0
-  m_Name: Horizontal 2x2
+  m_Name: Horizontal2x2
   m_TagString: Horizontal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -860,7 +862,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6c206904327fc564a8a19a7edefbcdb3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -915,6 +917,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31ed14ac858fab458d40d1311fc2c40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xUpperLimit: 0
+  xLowerLimit: 0
 --- !u!1 &2005965698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,7 +1170,7 @@ PrefabInstance:
     - target: {fileID: 635571453051926394, guid: 9ca357a49f930e644a863c993be80fe5,
         type: 3}
       propertyPath: m_Name
-      value: Vertical 1x2
+      value: Vertical1x2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ca357a49f930e644a863c993be80fe5, type: 3}
